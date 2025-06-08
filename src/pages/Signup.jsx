@@ -1,24 +1,61 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // optional, if you want to redirect
 
 export default function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const navigate = useNavigate(); // optional
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setError('');
+
         if (password !== confirmPassword) {
-            alert("Passwords don't match");
+            setError("Passwords don't match");
             return;
         }
-        // TODO: Call backend API for signup
-        console.log('Signup with:', { email, password });
+
+        setLoading(true);
+
+        try {
+            const response = await fetch('https://gym-backend-wfx1.onrender.com/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.ok) {
+                alert('Signup successful! Please login.');
+                // Clear form
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+                // Redirect to login page (optional)
+                navigate('/login');
+            } else {
+                const data = await response.json();
+                setError(data.message || 'Signup failed');
+            }
+        } catch (err) {
+            setError('Signup failed: ' + err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
             <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
                 <h2 className="text-2xl font-bold mb-6 text-center">Admin Signup</h2>
+
+                {error && (
+                    <p className="mb-4 text-red-600 font-semibold text-center">{error}</p>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label htmlFor="email" className="block mb-1 font-semibold">
@@ -34,6 +71,7 @@ export default function Signup() {
                             placeholder="admin@example.com"
                         />
                     </div>
+
                     <div>
                         <label htmlFor="password" className="block mb-1 font-semibold">
                             Password
@@ -48,6 +86,7 @@ export default function Signup() {
                             placeholder="••••••••"
                         />
                     </div>
+
                     <div>
                         <label htmlFor="confirmPassword" className="block mb-1 font-semibold">
                             Confirm Password
@@ -62,13 +101,17 @@ export default function Signup() {
                             placeholder="••••••••"
                         />
                     </div>
+
                     <button
                         type="submit"
-                        className="w-full bg-indigo-600 text-white font-semibold py-2 rounded hover:bg-indigo-700 transition"
+                        disabled={loading}
+                        className={`w-full ${loading ? 'bg-indigo-400' : 'bg-indigo-600 hover:bg-indigo-700'
+                            } text-white font-semibold py-2 rounded transition`}
                     >
-                        Sign Up
+                        {loading ? 'Signing Up...' : 'Sign Up'}
                     </button>
                 </form>
+
                 <p className="mt-4 text-center text-sm text-gray-600">
                     Already have an account?{' '}
                     <a href="/login" className="text-indigo-600 hover:underline">

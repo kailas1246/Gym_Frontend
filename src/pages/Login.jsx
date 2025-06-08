@@ -13,7 +13,7 @@ export default function Login() {
         setError('');
 
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+            const res = await axios.post('https://gym-backend-wfx1.onrender.com/api/auth/login', { email, password });
 
             // Save token in localStorage
             localStorage.setItem('token', res.data.token);

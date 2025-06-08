@@ -10,7 +10,7 @@ function MemberList() {
     const [filtered, setFiltered] = useState([]);
     const [editingMember, setEditingMember] = useState(null);
 
-    const API = 'http://localhost:5000/api/members';
+    const API = 'https://gym-backend-wfx1.onrender.com/api/members';
 
     useEffect(() => {
         fetchMembers();

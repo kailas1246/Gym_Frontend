@@ -8,12 +8,16 @@ export default function Login() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    const handleSignup = async () => {
+        navigate('/signup')
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
         try {
-            const res = await axios.post('https://gym-backend-wfx1.onrender.com/api/auth/login', { email, password });
+            const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
 
             // Save token in localStorage
             localStorage.setItem('token', res.data.token);
@@ -53,6 +57,16 @@ export default function Login() {
                 >
                     Login
                 </button>
+                <div className="mt-4 text-center text-sm text-gray-500">
+                    Don’t have an account?
+                    <button
+                        onClick={handleSignup}
+                        className="ml-1 text-indigo-600 hover:underline font-medium"
+                    >
+                        Sign up
+                    </button>
+                </div>
+
             </form>
         </div>
     );

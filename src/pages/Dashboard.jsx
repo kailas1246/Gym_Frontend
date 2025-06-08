@@ -7,7 +7,7 @@ export default function Dashboard() {
     const navigate = useNavigate();
     const [members, setMembers] = useState([]);
 
-    const API = 'http://localhost:5000/api/members';
+    const API = 'https://gym-backend-wfx1.onrender.com';
 
     useEffect(() => {
         fetchMembers();

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const API = "https://gym-backend-wfx1.onrender.com";
+const API = "https://gym-backend-wfx1.onrender.com/api/members";
 
 function AllMembers() {
     const [members, setMembers] = useState([]);

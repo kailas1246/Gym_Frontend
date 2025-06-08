@@ -6,7 +6,7 @@ function ExpiredMembers() {
     const [expiredMembers, setExpiredMembers] = useState([]);
     const [selectedMember, setSelectedMember] = useState(null);
     const [reactivateMonths, setReactivateMonths] = useState(1);
-    const API = "http://localhost:5000/api/members";
+    const API = "https://gym-backend-wfx1.onrender.com/api/members";
 
     useEffect(() => {
         fetchExpiredMembers();

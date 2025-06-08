@@ -22,12 +22,6 @@ export default function Dashboard() {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        navigate('/login');
-    };
-
     const today = new Date();
     const activeCount = members.filter((m) => new Date(m.membershipDate) >= today).length;
     const expiredCount = members.length - activeCount;
@@ -50,12 +44,7 @@ export default function Dashboard() {
                     <h2 className="text-xl font-semibold text-gray-800">Dashboard</h2>
                     <div className="flex items-center space-x-4">
                         <span className="hidden md:block text-gray-600">Admin</span>
-                        <button
-                            onClick={handleLogout}
-                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
-                        >
-                            Logout
-                        </button>
+
                     </div>
                 </header>
 
